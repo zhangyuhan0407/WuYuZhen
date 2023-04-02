@@ -6,3 +6,7 @@ obj/*
 Packages/*
 UserSettings/*
 *.sln
+Temp/*
+Assembly-CSharp.csproj
+.vs/WuYuZhen/v16/.suo
+*.csproj

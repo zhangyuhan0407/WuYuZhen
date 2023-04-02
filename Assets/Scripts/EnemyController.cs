@@ -5,27 +5,38 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    public int hp,maxHP;
-    float speed,EnemyCD;
-    public List<GameObject> Destinations;
-    public float EnemyAttackRange;
-    public Animator ani;
-    public HPBar enemyHPBar;
+    [HideInInspector]
+    public int hp;
+    public int maxHP;
+    public int atk, def;
+    public float attackRange;
+    public float cd;
+
+    float speed;
+    Animator ani;
+    TDBar enemyHPBar;
     int index;
+
+    
+
+    public List<GameObject> Destinations;
     // Start is called before the first frame update
     void Start()
     {
-        ani= GetComponent<Animator>();
+        ani = GetComponent<Animator>();
         speed = 100;
         index = 0;
-        EnemyCD = 2.0f;
+        cd = 2.0f;
+        this.hp = this.maxHP;
+
+
         GameObject prefabHPBar = Resources.Load<GameObject>("Prefabs/HPBar");
-        enemyHPBar = Instantiate(prefabHPBar).GetComponent<HPBar>();
+        enemyHPBar = Instantiate(prefabHPBar).GetComponent<TDBar>();
         enemyHPBar.transform.SetParent(this.transform);
 
 
         Destinations = new List<GameObject>();
-        foreach(var obj in GameObject.FindGameObjectsWithTag("Destination"))
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Destination"))
         {
             Destinations.Add(obj);
         }
@@ -35,9 +46,9 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TDGameManager.instance.IsGameStart == false) 
+        if (TDGameManager.instance.IsGameStart == false)
         {
-           return;
+            return;
         }
         if (enemyHPBar != null)
         {
@@ -48,7 +59,7 @@ public class EnemyController : MonoBehaviour
         {
             index++;
         }
-        EnemyCD -= Time.deltaTime;
+        cd -= Time.deltaTime;
         Move();
         EnemyAttack();
     }
@@ -85,28 +96,28 @@ public class EnemyController : MonoBehaviour
 
     public bool HasButCD()
     {
-        PlayerController[] Players = GameObject.FindObjectsOfType<PlayerController>();
-        if (Players.Length > 0 && EnemyCD >= 0)
+        TDOperatorAnimation[] Players = GameObject.FindObjectsOfType<TDOperatorAnimation>();
+        if (Players.Length > 0 && cd >= 0)
         {
             return true;
         }
         else
-        { 
-            return false; 
+        {
+            return false;
         }
     }
     void EnemyAttack()
     {
-        PlayerController[] Players = GameObject.FindObjectsOfType<PlayerController>();
+        TDOperator[] Players = GameObject.FindObjectsOfType<TDOperator>();
         if (Players.Length == 0)
         {
             return;
         }
-        if (EnemyCD >= 0)
+        if (cd >= 0)
         {
             return;
         }
-        PlayerController player = Players[0];
+        TDOperator player = Players[0];
         float mindis = (player.transform.position - transform.position).magnitude;
         for (int i = 0; i < Players.Length; i++)
         {
@@ -117,16 +128,18 @@ public class EnemyController : MonoBehaviour
                 mindis = dis;
             }
         }
-        if (mindis < EnemyAttackRange)
+        if (mindis < attackRange)
         {
             ani.SetTrigger("Attack");
-            player.Decreasehp();
-            EnemyCD = 2.0f;
+            player.DecreaseHP(this.atk);
+            cd = 2.0f;
         }
     }
-    public void Decreasehp()
+    public void DecreaseHP(int value)
     {
-        hp--;
+        int realValue = value - this.def;
+        realValue = Mathf.Max(0, realValue);
+        hp -= realValue;
         if (hp <= 0)
         {
             Destroy(gameObject);

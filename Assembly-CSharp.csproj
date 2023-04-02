@@ -59,20 +59,25 @@
     <Compile Include="Assets\Scripts\HintManager.cs" />
     <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
-    <Compile Include="Assets\Scripts\HPBar.cs" />
+    <Compile Include="Assets\Scripts\TDBar.cs" />
+    <Compile Include="Assets\Scripts\SFKLessons.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\TDHeroSlot.cs" />
     <Compile Include="Assets\Scripts\TDGameManager.cs" />
+    <Compile Include="Assets\Scripts\TDHeroPanel.cs" />
+    <Compile Include="Assets\Scripts\Level\TDLevel.cs" />
     <Compile Include="Assets\Scripts\HeroIcon.cs" />
     <Compile Include="Assets\Scripts\DoorController.cs" />
-    <Compile Include="Assets\Scripts\MenuScene.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\SFKLessons.cs" />
-    <Compile Include="Assets\Scripts\TDHeroPanel.cs" />
-    <Compile Include="Assets\Scripts\TDHeroSlot.cs" />
     <Compile Include="Assets\Scripts\TDHero.cs" />
     <Compile Include="Assets\Scripts\TDPlayerSystem.cs" />
-    <Compile Include="Assets\Scripts\Level\TDLevel.cs" />
+    <Compile Include="Assets\Scripts\MenuScene.cs" />
     <Compile Include="Assets\Scripts\TDEnemy.cs" />
+    <Compile Include="Assets\Scripts\TDOperatorAnimation.cs" />
+    <Compile Include="Assets\Scripts\TDOperator.cs" />
+    <Compile Include="Assets\Scripts\Skills\TDSkill.cs" />
+    <Compile Include="Assets\Scripts\Skills\TDSkill_Warrior.cs" />
+    <Compile Include="Assets\Scripts\Skills\TDSkill_Hunter.cs" />
+    <Compile Include="Assets\Scripts\Skills\TDSkill_Master.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

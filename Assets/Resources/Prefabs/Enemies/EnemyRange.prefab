@@ -65,6 +65,8 @@ MonoBehaviour:
   EnemyAttackRange: 600
   ani: {fileID: 0}
   enemyHPBar: {fileID: 0}
+  atk: 6
+  def: 1
 --- !u!95 &3286386669404134008
 Animator:
   serializedVersion: 4

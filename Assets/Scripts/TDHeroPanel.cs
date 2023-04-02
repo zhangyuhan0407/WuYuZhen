@@ -19,11 +19,7 @@ public class TDHeroPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            GameObject hero = Instantiate(prefabHero);
-            AddHero(hero.GetComponent<HeroIcon>());
-        }
+      
     }
 
 

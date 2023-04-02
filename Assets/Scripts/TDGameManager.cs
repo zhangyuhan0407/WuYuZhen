@@ -64,11 +64,15 @@ public class TDGameManager : MonoBehaviour
             cdTime = maxCDTime;
         }
     }
+
+
     public void EnemyEnterDoor() 
     { 
         EnemyCount++;
         Lose.text = "Life: "+ (maxEnemyCount - EnemyCount)+ "";
     }
+
+
     public void StartGame()
     {
         IsGameStart= !IsGameStart;
@@ -81,9 +85,9 @@ public class TDGameManager : MonoBehaviour
             state.text = "Start";
         }
 
+
+        //Fix BUG
         GameObject.Find("HeroPanel").GetComponent<TDHeroPanel>().Accept(TDPlayerSystem.Instance.heroes);
-
-
     }
 
 

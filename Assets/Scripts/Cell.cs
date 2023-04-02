@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Cell : MonoBehaviour
 {
-    public PlayerController player;
+    public TDOperatorAnimation player;
     public EnemyController enemy;
     public int id;
     public Text t;
@@ -20,7 +20,7 @@ public class Cell : MonoBehaviour
     {
         //t.text = id+"";
     }
-    public void Acceptplayer(PlayerController p)
+    public void Acceptplayer(TDOperatorAnimation p)
     {
         Debug.Log("abc");
         if (IsEmpty()) 

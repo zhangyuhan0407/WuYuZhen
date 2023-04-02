@@ -59,6 +59,6 @@ MonoBehaviour:
   - 3
   - 5
   - 7
-  cellIds: 1e0000001f0000002000000021000000
+  cellIds: 20000000200000002000000020000000
   enemies: []
   clicker: 0

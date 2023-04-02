@@ -54,6 +54,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 4
   maxHP: 4
+  EnemyAttackRange: 1
+  atk: 4
+  def: 3
   Destinations:
   - {fileID: 0}
   - {fileID: 0}
@@ -62,9 +65,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  EnemyAttackRange: 200
-  ani: {fileID: 0}
-  enemyHPBar: {fileID: 0}
 --- !u!95 &198228597869527167
 Animator:
   serializedVersion: 4
