@@ -45,7 +45,7 @@ public class TDOperator : MonoBehaviour, IPointerClickHandler
         if (cd <= 0)
         {
             Attack();
-            player.PlayAnimation_Attack();
+            
         }
         
     }
@@ -70,8 +70,9 @@ public class TDOperator : MonoBehaviour, IPointerClickHandler
                 mindis = dis;
             }
         }
-        if (mindis < AttackRange)
+        if (mindis < AttackRange * 150)
         {
+            player.PlayAnimation_Attack();
             enemy.DecreaseHP(this.atk);
             cd = 1.5f;
         }
@@ -120,4 +121,12 @@ public class TDOperator : MonoBehaviour, IPointerClickHandler
     {
         c.Acceptplayer(this.player);
     }
+
+
+    private void OnDestroy()
+    {
+        Debug.Log(gameObject.name);
+    }
+
+
 }

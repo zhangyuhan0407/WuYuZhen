@@ -18,7 +18,7 @@ public class Cell : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //t.text = id+"";
+        t.text = id+"";
     }
     public void Acceptplayer(TDOperatorAnimation p)
     {
@@ -50,5 +50,11 @@ public class Cell : MonoBehaviour
     public bool Hasenemy()
     {
         return enemy != null;
+    }
+
+
+    public void Highlight(Color color)
+    {
+        this.GetComponent<Image>().color = color;
     }
 }

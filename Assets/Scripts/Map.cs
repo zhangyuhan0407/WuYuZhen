@@ -24,15 +24,15 @@ public class Map : MonoBehaviour
             {
                 GameObject c = Instantiate(cellprefab);
                 Cell cell = c.GetComponent<Cell>();
-                cell.id = j * col + i;
+                cell.id = i * row + j;
                 cell.transform.SetParent(transform);
                 cell.name = "cell" + cell.id;
-                cell.transform.localPosition = new Vector2(-540 + 180 * i, -300 + 150 * j);
+                cell.transform.localPosition = new Vector2(-1050/2 + 150 * i + 75, -750/2 + 150 * j + 75);
                 cells.Add(cell);
             }
         }
 
-        this.GetComponent<RectTransform>().sizeDelta = new Vector2(7 * 180, 5 * 150);
+        this.GetComponent<RectTransform>().sizeDelta = new Vector2(7 * 150, 5 * 150);
     }
 
     // Update is called once per frame

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TDLevel : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class TDLevel : MonoBehaviour
 
     public List<string> enemyNames;
     public List<float> enemySpawnTime;
-    public List<int> cellIds;
+    public List<int> pathIndex;
     
 
     [HideInInspector]
@@ -23,6 +24,10 @@ public class TDLevel : MonoBehaviour
 
 
     public float clicker;
+
+    public List<int> path1;
+    public List<int> path2;
+    public List<int> path3;
 
 
     // Start is called before the first frame update
@@ -35,11 +40,26 @@ public class TDLevel : MonoBehaviour
     void Update()
     {
 
-        if(TDGameManager.instance.IsGameStart == false)
+        foreach (var id in path1)
+        {
+            Map.instanse.cells[id].GetComponent<Image>().color = Color.yellow;
+        }
+
+        foreach (var id in path2)
+        {
+            Map.instanse.cells[id].GetComponent<Image>().color = Color.yellow;
+        }
+
+
+        foreach (var id in path3)
+        {
+            Map.instanse.cells[id].GetComponent<Image>().color = Color.yellow;
+        }
+
+        if (TDGameManager.instance.IsGameStart == false)
         {
             return;
         }
-
 
         clicker += Time.deltaTime;
 
@@ -47,24 +67,45 @@ public class TDLevel : MonoBehaviour
         {
             if(Check(clicker, enemySpawnTime[i]))
             {
-                CreateEnemey(enemyNames[i], Map.instanse.cells[cellIds[i]]);
+                List<int> path = path1;
+                if(pathIndex[i] == 1)
+                {
+                    path = path1;
+                }
+                else if (pathIndex[i] == 2)
+                {
+                    path = path2;
+                }
+                else if (pathIndex[i] == 3)
+                {
+                    path = path3;
+                }
+
+                CreateEnemey(enemyNames[i], path);
                 enemyNames.RemoveAt(i);
                 enemySpawnTime.RemoveAt(i);
-                cellIds.RemoveAt(i);
+                pathIndex.RemoveAt(i);
                 break;
             }
         }
-        
+
+
     }
 
 
 
-    public void CreateEnemey(string name ,Cell cell)
+    public void CreateEnemey(string name , List<int> path)
     {
         GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" +name);
         GameObject enemy = Instantiate(prefab);
-        enemy.transform.SetParent(cell.transform);
-        enemy.gameObject.transform.position = cell.transform.position;
+        enemy.transform.SetParent(Map.instanse.cells[path[0]].transform);
+        enemy.gameObject.transform.position = Map.instanse.cells[path[0]].transform.position;
+
+        enemy.GetComponent<EnemyController>().Destinations = new List<GameObject>();
+        foreach (var id in path)
+        {
+            enemy.GetComponent<EnemyController>().Destinations.Add(Map.instanse.cells[id].gameObject);
+        }
     }
 
 

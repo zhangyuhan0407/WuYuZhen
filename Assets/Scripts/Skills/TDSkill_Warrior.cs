@@ -26,7 +26,7 @@ public class TDSkill_Warrior : TDSkill
                 mindis = dis;
             }
         }
-        if (mindis < 1)
+        if (mindis <= 1)
         {
             for (int i = 0; i <= 12; i++)
                 enemy.DecreaseHP(op.atk);

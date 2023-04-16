@@ -9,6 +9,8 @@ public class HeroIcon : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     public Vector2 originalPosition;
     public string heroName;
     public int cost;
+
+    Cell tempCell;      //上一个高亮的Cell
     // Start is called before the first frame update
     void Start()
     {
@@ -38,17 +40,23 @@ public class HeroIcon : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         {
             return;
         }
-        //Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if(tempCell!= null)
+        {
+            tempCell.Highlight(Color.white);
+            tempCell = null;
+        }
+        
         Vector2 pos = Input.mousePosition;
         Cell cell = Map.instanse.FindCellAtPosition(pos.x, pos.y);
-        if(cell == null)
+        if (cell == null)
         {
             PutBack();
             return;
         }
         else
         {
-            DropHero();
+            DropHero(cell) ;
             TDGameManager.instance.cost -= this.cost;
             transform.position = cell.transform.position;
             Debug.Log(cell.id);
@@ -60,6 +68,18 @@ public class HeroIcon : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if (CheckInAvailable())
         {
             return;
+        }
+
+        var cell = Map.instanse.FindCellAtPosition(Input.mousePosition.x, Input.mousePosition.y);
+        if (tempCell != null && tempCell != cell)
+        {     
+            tempCell.Highlight(Color.white); 
+        }
+
+        if (cell != null)
+        {
+            tempCell = cell;
+            cell.Highlight(Color.cyan);
         }
 
         transform.position = Input.mousePosition;
@@ -84,15 +104,16 @@ public class HeroIcon : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     }
 
 
-    public void DropHero()
+    public void DropHero(Cell cell)
     {
         //reduce ap
         //cell accep this hero
         //destroy this hero
         GameObject prefeb = Resources.Load<GameObject>("Prefabs/Heroes/" + heroName);
         GameObject hero = Instantiate(prefeb);
-        hero.transform.SetParent(this.transform.parent);
-        hero.transform.position = this.transform.position;
+        hero.transform.SetParent(cell.transform);
+        hero.transform.localPosition = Vector2.zero + new Vector2(0,25);
+
         Destroy(gameObject);
     }
 

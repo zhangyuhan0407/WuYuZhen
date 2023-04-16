@@ -10,36 +10,35 @@ public class EnemyController : MonoBehaviour
     public int maxHP;
     public int atk, def;
     public float attackRange;
-    public float cd;
+    public float cd,maxCD;
 
     float speed;
     Animator ani;
     TDBar enemyHPBar;
-    int index;
 
-    
-
+    public int destIndex = 0;
     public List<GameObject> Destinations;
+
+    TDOperator player;
+
     // Start is called before the first frame update
     void Start()
     {
         ani = GetComponent<Animator>();
         speed = 100;
-        index = 0;
-        cd = 2.0f;
+        //if(destIndex != 0)
+        //{
+        //    destIndex = 0;
+        //}
+        
+        cd= 0;
         this.hp = this.maxHP;
 
 
         GameObject prefabHPBar = Resources.Load<GameObject>("Prefabs/HPBar");
         enemyHPBar = Instantiate(prefabHPBar).GetComponent<TDBar>();
         enemyHPBar.transform.SetParent(this.transform);
-
-
-        Destinations = new List<GameObject>();
-        foreach (var obj in GameObject.FindGameObjectsWithTag("Destination"))
-        {
-            Destinations.Add(obj);
-        }
+        enemyHPBar.transform.localPosition = this.transform.position - new Vector3(0, -50, 0);
 
     }
 
@@ -53,11 +52,11 @@ public class EnemyController : MonoBehaviour
         if (enemyHPBar != null)
         {
             enemyHPBar.SetHP(hp, maxHP);
-            enemyHPBar.gameObject.transform.localPosition = new Vector2(0, -200);
+            enemyHPBar.gameObject.transform.localPosition = new Vector2(0, -50);
         }
         if (CheckReachDestination())
         {
-            index++;
+            destIndex++;
         }
         cd -= Time.deltaTime;
         Move();
@@ -65,7 +64,7 @@ public class EnemyController : MonoBehaviour
     }
     public void Move()
     {
-        if (index >= Destinations.Count)
+        if (destIndex >= Destinations.Count)
         {
             Destroy(gameObject);
             TDGameManager.instance.EnemyEnterDoor();
@@ -78,15 +77,15 @@ public class EnemyController : MonoBehaviour
         else
         {
             ani.SetBool("Walk", true);
-            Vector3 dir = (Destinations[index].transform.position - transform.position).normalized;
+            Vector3 dir = (Destinations[destIndex].transform.position - transform.position).normalized;
             transform.position = transform.position + dir * speed * Time.deltaTime;
         }
     }
     public bool CheckReachDestination()
     {
-        if (transform.position.x > Destinations[index].transform.position.x - 0.1f && transform.position.x < Destinations[index].transform.position.x + 0.1f)
+        if (transform.position.x > Destinations[destIndex].transform.position.x - 0.1f && transform.position.x < Destinations[destIndex].transform.position.x + 0.1f)
         {
-            if (transform.position.y > Destinations[index].transform.position.y - 0.1f && transform.position.y < Destinations[index].transform.position.y + 0.1f)
+            if (transform.position.y > Destinations[destIndex].transform.position.y - 0.1f && transform.position.y < Destinations[destIndex].transform.position.y + 0.1f)
             {
                 return true;
             }
@@ -128,13 +127,22 @@ public class EnemyController : MonoBehaviour
                 mindis = dis;
             }
         }
-        if (mindis < attackRange)
+        if (mindis < attackRange * 150)
         {
             ani.SetTrigger("Attack");
-            player.DecreaseHP(this.atk);
-            cd = 2.0f;
+            cd = maxCD;
+            this.player = player;
+            Invoke("DamagePlayer", 0.2f);
         }
     }
+
+
+    public void DamagePlayer()
+    {
+        player.DecreaseHP(this.atk);
+    }
+
+
     public void DecreaseHP(int value)
     {
         int realValue = value - this.def;
