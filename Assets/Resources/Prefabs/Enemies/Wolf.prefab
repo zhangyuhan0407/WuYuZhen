@@ -59,6 +59,7 @@ MonoBehaviour:
   attackRange: 1
   cd: 0
   maxCD: 2
+  destIndex: 0
   Destinations:
   - {fileID: 0}
   - {fileID: 0}

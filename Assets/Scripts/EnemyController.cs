@@ -133,6 +133,11 @@ public class EnemyController : MonoBehaviour
             cd = maxCD;
             this.player = player;
             Invoke("DamagePlayer", 0.2f);
+
+            if(gameObject.GetComponent<TDSkill_Bomb>() != null)
+            {
+                gameObject.GetComponent<TDSkill_Bomb>().Bomb();
+            }
         }
     }
 

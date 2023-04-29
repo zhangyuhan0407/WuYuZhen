@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3895289450f722488bca1f5f2176ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  key: Warrior
   hp: 0
   ap: 0
   maxHP: 40

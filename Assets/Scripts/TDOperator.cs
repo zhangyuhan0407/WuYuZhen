@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class TDOperator : MonoBehaviour, IPointerClickHandler
 {
-
+    public string key;  //键，唯一标识符。根据Key值判断是哪一个干员
     [HideInInspector]
     public int hp, ap;
     public int maxHP, maxAP, clss;
@@ -38,17 +38,30 @@ public class TDOperator : MonoBehaviour, IPointerClickHandler
             return;
         }
 
+        IncreaseAP();
+        
         cd -= Time.deltaTime;
-        tempAP += Time.deltaTime;
-        ap = Mathf.Min((int)tempAP, maxAP);
-
         if (cd <= 0)
         {
             Attack();
-            
         }
         
     }
+    
+
+    public void IncreaseAP()
+    {
+        if(key == "Warrior")
+        {
+
+        }
+        else
+        {
+            tempAP += Time.deltaTime;
+            ap = Mathf.Min((int)tempAP, maxAP);
+        }
+    }
+
 
 
     void Attack()
@@ -75,6 +88,12 @@ public class TDOperator : MonoBehaviour, IPointerClickHandler
             player.PlayAnimation_Attack();
             enemy.DecreaseHP(this.atk);
             cd = 1.5f;
+
+            if (key == "Warrior")
+            {
+                ap += 3;
+                ap = Mathf.Min(ap, maxAP);
+            }
         }
     }
 

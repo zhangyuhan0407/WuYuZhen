@@ -118,4 +118,13 @@ public class HeroIcon : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     }
 
 
+
+    public static HeroIcon Create(string key)
+    {
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/HeroAvatars/" + key);
+        GameObject hero = Instantiate(prefab);
+        return hero.GetComponent<HeroIcon>();
+    }
+
+
 }
